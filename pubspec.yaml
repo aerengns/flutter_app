@@ -13,6 +13,8 @@ dependencies:
   firebase_auth: ^4.7.0
   firebase_ui_auth: ^1.7.0
   firebase_ui_oauth_google: ^1.2.0
+  shared_preferences: ^2.3.3
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
