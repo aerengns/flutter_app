@@ -1,17 +1,35 @@
-import 'package:drive_or_drunk_app/auth_wrapper.dart';
-import 'package:drive_or_drunk_app/homepage.dart';
-import 'package:drive_or_drunk_app/login.dart';
+import 'package:drive_or_drunk_app/config/routes.dart';
+import 'package:drive_or_drunk_app/core/theme/app_theme.dart';
+import 'package:drive_or_drunk_app/core/theme/theme_provider.dart';
+import 'package:drive_or_drunk_app/features/authentication/auth_provider.dart';
+import 'package:drive_or_drunk_app/features/authentication/auth_repository.dart';
+import 'package:drive_or_drunk_app/features/authentication/firebase_auth_datasource.dart';
+import 'package:drive_or_drunk_app/services/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'firebase_options.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MainApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<AuthRepository>(
+          create: (_) => AuthRepositoryImpl(FirebaseAuthDataSource()),
+        ),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => AuthProvider(context.read<AuthRepository>()),
+        ),
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (_) => ThemeProvider(),
+        ),
+      ],
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -19,12 +37,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
-      home: AuthWrapper(),
-      routes: {
-        '/login': (context) => LoginPage(),
-        '/home': (context) => const HomePage()
-      },
+      title: 'Flutter Template',
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode:
+          themeProvider.themeMode, // Dynamically respond to theme changes
+      initialRoute: AppRoutes.home,
+      onGenerateRoute: AppRoutes.generateRoute,
     );
   }
 }
