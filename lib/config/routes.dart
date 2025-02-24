@@ -10,27 +10,30 @@ class AppRoutes {
   static const register = '/register';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    // Get the current authentication state
-    final User? currentUser = FirebaseAuth.instance.currentUser;
-
     // Custom route wrapper that checks authentication
     MaterialPageRoute authenticatedRoute(
         {required Widget Function(BuildContext) builder,
         required String routeName}) {
       return MaterialPageRoute(
         builder: (context) {
-          // If no user is logged in and trying to access home, redirect to login
-          if (currentUser == null && routeName == home) {
-            return LoginPage();
-          }
+          return StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              final currentUser = snapshot.data;
+              // If no user is logged in and trying to access home, redirect to login
+              if (currentUser == null && routeName == home) {
+                return LoginPage();
+              }
 
-          // If user is logged in and trying to access login, redirect to home
-          if (currentUser != null && routeName == login) {
-            return const HomePage();
-          }
+              // If user is logged in and trying to access login, redirect to home
+              if (currentUser != null && routeName == login) {
+                return const HomePage();
+              }
 
-          // Otherwise, return the requested route
-          return builder(context);
+              // Otherwise, return the requested route
+              return builder(context);
+            },
+          );
         },
         settings: settings,
       );

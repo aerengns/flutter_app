@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -39,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
         actions: [
           IconButton(
             icon: Icon(
@@ -55,33 +57,33 @@ class _LoginPageState extends State<LoginPage> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           children: [
             TextFormField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
               validator: (value) =>
                   value!.isEmpty ? 'Please enter an email' : null,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
               validator: (value) =>
                   value!.isEmpty ? 'Please enter a password' : null,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _isLoading ? null : _login,
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, AppRoutes.register);
               },
-              child: Text('Don’t have an account? Register'),
+              child: const Text('Don’t have an account? Register'),
             ),
 
             // ElevatedButton(

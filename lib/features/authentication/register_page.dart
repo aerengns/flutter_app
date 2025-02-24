@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -40,7 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: const Text('Register'),
         actions: [
           IconButton(
             icon: Icon(
@@ -56,42 +58,42 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           children: [
             TextFormField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
               validator: (value) =>
                   value!.isEmpty ? 'Please enter an email' : null,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
               validator: (value) => value!.length < 6
                   ? 'Password must be at least 6 characters'
                   : null,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: _confirmPasswordController,
-              decoration: InputDecoration(labelText: 'Confirm Password'),
+              decoration: const InputDecoration(labelText: 'Confirm Password'),
               obscureText: true,
               validator: (value) => value != _passwordController.text
                   ? 'Passwords do not match'
                   : null,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _isLoading ? null : _register,
-              child: Text('Register'),
+              child: const Text('Register'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, AppRoutes.login);
               },
-              child: Text('Already have an account? Login'),
+              child: const Text('Already have an account? Login'),
             ),
           ],
         ),
