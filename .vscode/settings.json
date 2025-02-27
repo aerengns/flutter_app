@@ -1,7 +1,0 @@
-{
-  "editor.defaultFormatter": "Dart-Code.flutter",
-  "dart.flutterHotReloadOnSave": "allIfDirty",
-  "editor.formatOnSave": true,
-  "cmake.sourceDirectory": "/home/armaf/flutter_app/linux/flutter",
-  "java.configuration.updateBuildConfiguration": "interactive"
-}
