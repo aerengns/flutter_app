@@ -34,8 +34,7 @@ ServiceDefinitions.json
 # Ignore generated plugin registrant
 Runner/GeneratedPluginRegistrant.*
 
-# Ignore VSCode settings
-.vscode/
+
 
 # Exceptions to above rules
 !default.mode1v3
@@ -43,10 +42,6 @@ Runner/GeneratedPluginRegistrant.*
 !default.pbxuser
 !default.perspectivev3
 
+# Firebase
+Runner/GoogleService-Info.plist
 
-# Ignore Firebase related files
-ios/Runner/GoogleService-Info.plist
-firepit-log.txt
-
-# Ignore .lock files
-**/*.lock

@@ -50,3 +50,11 @@ app.*.map.json
 **/*.g.services.json
 **/serviceAccountKey.json
 google-services.json
+
+firepit-log.txt
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore .lock files
+**/*.lock
