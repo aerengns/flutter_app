@@ -6,7 +6,7 @@ class AppTheme {
     return ThemeData(
       primarySwatch: Colors.blue,
       brightness: Brightness.light,
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         color: Colors.blue,
         elevation: 0,
         titleTextStyle: TextStyle(
@@ -15,7 +15,7 @@ class AppTheme {
           fontWeight: FontWeight.bold,
         ),
       ),
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         bodyLarge: TextStyle(fontSize: 16),
       ),
@@ -29,13 +29,13 @@ class AppTheme {
       appBarTheme: AppBarTheme(
         color: Colors.blueGrey[900],
         elevation: 0,
-        titleTextStyle: TextStyle(
+        titleTextStyle: const TextStyle(
           color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
       ),
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         bodyLarge: TextStyle(fontSize: 16),
       ),
