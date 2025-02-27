@@ -26,3 +26,9 @@ dart pub global activate flutterfire_cli
 firebase login
 flutterfire configure
 ```
+
+# flutter_lints commands
+```bash
+flutter analyze
+dart fix --apply
+```
