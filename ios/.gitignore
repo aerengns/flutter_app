@@ -1,3 +1,4 @@
+# Ignore directories and files related to Xcode
 **/dgph
 *.mode1v3
 *.mode2v3
@@ -15,6 +16,8 @@ Icon?
 profile
 xcuserdata
 **/.generated/
+
+# Ignore Flutter related files
 Flutter/App.framework
 Flutter/Flutter.framework
 Flutter/Flutter.podspec
@@ -24,11 +27,23 @@ Flutter/app.flx
 Flutter/app.zip
 Flutter/flutter_assets/
 Flutter/flutter_export_environment.sh
+
+# Ignore service definitions
 ServiceDefinitions.json
+
+# Ignore generated plugin registrant
 Runner/GeneratedPluginRegistrant.*
 
-# Exceptions to above rules.
+# Ignore VSCode settings
+.vscode/
+
+# Exceptions to above rules
 !default.mode1v3
 !default.mode2v3
 !default.pbxuser
 !default.perspectivev3
+
+
+# Ignore Firebase related files
+ios/Runner/GoogleService-Info.plist
+firepit-log.txt
