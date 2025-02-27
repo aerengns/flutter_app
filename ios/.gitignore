@@ -27,6 +27,7 @@ Flutter/app.flx
 Flutter/app.zip
 Flutter/flutter_assets/
 Flutter/flutter_export_environment.sh
+pubspec.lock
 
 # Ignore service definitions
 ServiceDefinitions.json
