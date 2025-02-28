@@ -17,6 +17,7 @@ dependencies:
   shared_preferences: ^2.3.3
   provider: ^6.1.2
   flex_color_scheme: ^8.1.1
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +26,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+  - assets/logos/logo_android12.png
