@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
 
-                  debugPrint('Users: ${snapshot.data?.map((e) => e.toMap())}');
+                  // debugPrint('Users: ${snapshot.data?.map((e) => e.toMap())}');
 
                   final users = snapshot.data ?? [];
 
@@ -94,6 +94,53 @@ class HomePage extends StatelessWidget {
                 },
               ),
             ),
+            const Divider(
+              height: 40,
+              thickness: 2,
+              indent: 20,
+              endIndent: 20,
+            ),
+            Expanded(
+              child: StreamBuilder(
+                stream: _firestoreService.getEvents(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    debugPrint('Error: ${snapshot.error}');
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+
+                  debugPrint('Events: ${snapshot.data?.map((e) => e.toMap())}');
+
+                  final events = snapshot.data ?? [];
+
+                  if (events.isEmpty) {
+                    return const Center(child: Text('No events found.'));
+                  }
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: events.length,
+                    itemBuilder: (context, index) {
+                      final event = events[index];
+                      return ListTile(
+                        title: Text(event.name),
+                        subtitle: Text(
+                            'Drivers: ${event.drivers.length}, Drunkards: ${event.drunkards.length}'),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () =>
+                              _firestoreService.deleteEvent(event.id),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
