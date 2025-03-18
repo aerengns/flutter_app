@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:drive_or_drunk_app/config/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
+import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
 
 class User {
   final String? id;

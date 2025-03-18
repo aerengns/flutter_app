@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_or_drunk_app/models/event_model.dart' as event_model;
+import 'package:drive_or_drunk_app/models/event_model.dart' show Event;
 import 'package:drive_or_drunk_app/models/user_model.dart' as user_model;
 import 'package:drive_or_drunk_app/models/user_model.dart' show User;
 
@@ -24,5 +26,46 @@ class FirestoreService {
 
   Future<void> deleteUser(String? id) async {
     return user_model.deleteUser(id, _db);
+  }
+
+  // EVENT METHODS
+  Future<void> addEvent(Event event) async {
+    return event_model.addEvent(event, _db);
+  }
+
+  Future<Event?> getEvent(String id) async {
+    return event_model.getEvent(id, _db);
+  }
+
+  Stream<List<Event>> getEvents() {
+    return event_model.getEvents(_db);
+  }
+
+  Future<void> updateEvent(String id, Map<String, dynamic> data) async {
+    return event_model.updateEvent(id, data, _db);
+  }
+
+  Future<void> deleteEvent(String? id) async {
+    return event_model.deleteEvent(id, _db);
+  }
+
+  Future<void> addDriverToEvent(
+      String eventId, DocumentReference<User> driverRef) async {
+    return event_model.addDriver(eventId, driverRef, _db);
+  }
+
+  Future<void> addDrunkardToEvent(
+      String eventId, DocumentReference<User> drunkardRef) async {
+    return event_model.addDrunkard(eventId, drunkardRef, _db);
+  }
+
+  Future<void> removeDriverFromEvent(
+      String eventId, DocumentReference<User> driverRef) async {
+    return event_model.removeDriver(eventId, driverRef, _db);
+  }
+
+  Future<void> removeDrunkardFromEvent(
+      String eventId, DocumentReference<User> drunkardRef) async {
+    return event_model.removeDrunkard(eventId, drunkardRef, _db);
   }
 }
