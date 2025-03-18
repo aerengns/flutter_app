@@ -62,7 +62,8 @@ class HomePage extends StatelessWidget {
               customListTileBuilder: (user) {
                 return ListTile(
                   title: Text(user.name),
-                  subtitle: Text('Username: ${user.username}'),
+                  subtitle: Text(
+                      'Username: ${user.username} Registered Events: ${user.registeredEvents}'),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () => _firestoreService.deleteUser(user.id),

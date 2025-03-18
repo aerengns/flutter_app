@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show DocumentReference, FirebaseFirestore;
 import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
 
 class User {
@@ -9,22 +10,25 @@ class User {
   final String username;
   final bool isVerified;
   final String? profilePicture;
+  final List<DocumentReference> registeredEvents;
 
   User(
       {this.id,
       required this.name,
       this.isVerified = false,
       required this.username,
-      this.profilePicture});
+      this.profilePicture,
+      this.registeredEvents = const []});
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
     return User(
-      id: documentId,
-      name: data['name'] ?? '',
-      username: data['username'] ?? '',
-      isVerified: data['isVerified'] ?? false,
-      profilePicture: data['profilePicture'],
-    );
+        id: documentId,
+        name: data['name'] ?? '',
+        username: data['username'] ?? '',
+        isVerified: data['isVerified'] ?? false,
+        profilePicture: data['profilePicture'],
+        registeredEvents:
+            List<DocumentReference>.from(data['registeredEvents']));
   }
 
   Map<String, dynamic> toMap() {
@@ -33,6 +37,7 @@ class User {
       'username': username,
       'isVerified': isVerified,
       'profilePicture': profilePicture,
+      'registeredEvents': registeredEvents
     };
   }
 }
