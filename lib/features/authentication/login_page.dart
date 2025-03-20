@@ -85,7 +85,6 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: const Text('Don’t have an account? Register'),
             ),
-
             // ElevatedButton(
             //   onPressed: _isLoading
             //       ? null
