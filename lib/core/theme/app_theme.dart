@@ -1,44 +1,41 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// Theme configuration
 class AppTheme {
-  static ThemeData get lightTheme {
-    return ThemeData(
-      primarySwatch: Colors.blue,
-      brightness: Brightness.light,
-      appBarTheme: const AppBarTheme(
-        color: Colors.blue,
-        elevation: 0,
-        titleTextStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-        bodyLarge: TextStyle(fontSize: 16),
-      ),
-    );
-  }
-
-  static ThemeData get darkTheme {
-    return ThemeData(
-      primarySwatch: Colors.blue,
-      brightness: Brightness.dark,
-      appBarTheme: AppBarTheme(
-        color: Colors.blueGrey[900],
-        elevation: 0,
-        titleTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-        bodyLarge: TextStyle(fontSize: 16),
-      ),
-    );
-  }
+  static ThemeData lightTheme = FlexThemeData.light(
+    scheme: FlexScheme.green,
+    subThemesData: const FlexSubThemesData(
+      inputDecoratorIsFilled: true,
+      alignedDropdown: true,
+      tooltipRadius: 4,
+      tooltipSchemeColor: SchemeColor.inverseSurface,
+      tooltipOpacity: 0.9,
+      snackBarElevation: 6,
+      snackBarBackgroundSchemeColor: SchemeColor.inverseSurface,
+      navigationRailUseIndicator: true,
+      navigationRailLabelType: NavigationRailLabelType.all,
+    ),
+    keyColors: const FlexKeyColors(),
+    visualDensity: FlexColorScheme.comfortablePlatformDensity,
+    cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
+  );
+  static ThemeData darkTheme = FlexThemeData.dark(
+    scheme: FlexScheme.green,
+    subThemesData: const FlexSubThemesData(
+      blendOnColors: true,
+      inputDecoratorIsFilled: true,
+      alignedDropdown: true,
+      tooltipRadius: 4,
+      tooltipSchemeColor: SchemeColor.inverseSurface,
+      tooltipOpacity: 0.9,
+      snackBarElevation: 6,
+      snackBarBackgroundSchemeColor: SchemeColor.inverseSurface,
+      navigationRailUseIndicator: true,
+      navigationRailLabelType: NavigationRailLabelType.all,
+    ),
+    keyColors: const FlexKeyColors(),
+    visualDensity: FlexColorScheme.comfortablePlatformDensity,
+    cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
+  );
 }
