@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
                       'Username: ${user.username} Registered Events: ${user.registeredEvents}'),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
-                    onPressed: () => _firestoreService.deleteUser(user.id),
+                    onPressed: () => {},
                   ),
                 );
               },
@@ -86,11 +86,31 @@ class HomePage extends StatelessWidget {
                       'Drivers: ${event.drivers.length}, Drunkards: ${event.drunkards.length}'),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
-                    onPressed: () => _firestoreService.deleteEvent(event.id),
+                    onPressed: () => {},
                   ),
                 );
               },
             ),
+            const Divider(
+              height: 40,
+              thickness: 2,
+              indent: 20,
+              endIndent: 20,
+            ),
+            CustomStreamBuilder(
+              stream: _firestoreService.getBookings(),
+              customListTileBuilder: (booking) {
+                return ListTile(
+                  title: Text('Booking with event id: ${booking.eventId.id}'),
+                  subtitle: Text(
+                      'Driver: ${booking.driverId}, Drunkards: ${booking.drunkards.length}'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => {},
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),

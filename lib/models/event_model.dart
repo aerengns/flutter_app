@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart'
     show DocumentReference, FirebaseFirestore, GeoPoint;
 import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
 import 'package:drive_or_drunk_app/models/user_model.dart' show User;
-import 'package:flutter/rendering.dart';
 
 class Event {
   final String? id;
@@ -46,14 +43,13 @@ class Event {
     return Event(
       id: documentId,
       name: data['name'] ?? '',
-      drivers: List<DocumentReference>.from(data['drivers']),
-      drunkards: List<DocumentReference>.from(data['drunkards']),
+      drivers: List<DocumentReference>.from(data['drivers'] ?? []),
+      drunkards: List<DocumentReference>.from(data['drunkards'] ?? []),
       location: data['location'],
     );
   }
 
   Map<String, dynamic> toMap() {
-    debugPrint('Event.toMap: $id, $name, $drivers, $drunkards');
     return {
       'name': name,
       'drivers': drivers,
@@ -89,12 +85,7 @@ Future<void> updateEvent(
   await db.collection(Collections.events).doc(id).update(data);
 }
 
-Future<void> deleteEvent(String? id, FirebaseFirestore db) async {
-  if (id == null) {
-    log('Delete event called with null id');
-    // TODO: Handle error
-    return;
-  }
+Future<void> deleteEvent(String id, FirebaseFirestore db) async {
   await db.collection(Collections.events).doc(id).delete();
 }
 

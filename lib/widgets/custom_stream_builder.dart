@@ -18,40 +18,38 @@ class CustomStreamBuilder<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: StreamBuilder(
-        stream: stream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: loadingWidget);
-          }
+    return StreamBuilder(
+      stream: stream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: loadingWidget);
+        }
 
-          if (snapshot.hasError) {
-            debugPrint('Error: ${snapshot.error}');
-            return Center(child: errorWidget);
-          }
+        if (snapshot.hasError) {
+          debugPrint('Error: ${snapshot.error}');
+          return Center(child: errorWidget);
+        }
 
-          if (verbose) {
-            debugPrint(
-                'items: ${snapshot.data?.map((e) => (e as dynamic)?.toMap())}');
-          }
+        if (verbose) {
+          debugPrint(
+              'items: ${snapshot.data?.map((e) => (e as dynamic)?.toMap())}');
+        }
 
-          final items = snapshot.data ?? [];
+        final items = snapshot.data ?? [];
 
-          if (items.isEmpty) {
-            return const Center(child: Text('No item found.'));
-          }
+        if (items.isEmpty) {
+          return const Center(child: Text('No item found.'));
+        }
 
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return customListTileBuilder(item);
-            },
-          );
-        },
-      ),
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return customListTileBuilder(item);
+          },
+        );
+      },
     );
   }
 }

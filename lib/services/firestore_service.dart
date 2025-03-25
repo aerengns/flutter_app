@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_or_drunk_app/models/booking_model.dart' as booking_model;
+import 'package:drive_or_drunk_app/models/booking_model.dart' show Booking;
 import 'package:drive_or_drunk_app/models/event_model.dart' as event_model;
 import 'package:drive_or_drunk_app/models/event_model.dart' show Event;
 import 'package:drive_or_drunk_app/models/user_model.dart' as user_model;
@@ -24,7 +26,7 @@ class FirestoreService {
     return user_model.updateUser(id, data, _db);
   }
 
-  Future<void> deleteUser(String? id) async {
+  Future<void> deleteUser(String id) async {
     return user_model.deleteUser(id, _db);
   }
 
@@ -45,7 +47,7 @@ class FirestoreService {
     return event_model.updateEvent(id, data, _db);
   }
 
-  Future<void> deleteEvent(String? id) async {
+  Future<void> deleteEvent(String id) async {
     return event_model.deleteEvent(id, _db);
   }
 
@@ -67,5 +69,36 @@ class FirestoreService {
   Future<void> removeDrunkardFromEvent(
       String eventId, DocumentReference<User> drunkardRef) async {
     return event_model.removeDrunkard(eventId, drunkardRef, _db);
+  }
+
+  // BOOKING METHODS
+  Future<void> addBooking(Booking booking) async {
+    return booking_model.addBooking(booking, _db);
+  }
+
+  Future<Booking?> getBooking(String id) async {
+    return booking_model.getBooking(id, _db);
+  }
+
+  Stream<List<Booking>> getBookings() {
+    return booking_model.getBookings(_db);
+  }
+
+  Future<void> updateBooking(String id, Map<String, dynamic> data) async {
+    return booking_model.updateBooking(id, data, _db);
+  }
+
+  Future<void> deleteBooking(String id) async {
+    return booking_model.deleteBooking(id, _db);
+  }
+
+  Future<void> addDrunkardToBooking(
+      String bookingId, DocumentReference<User> drunkardRef) async {
+    return booking_model.addDrunkard(bookingId, drunkardRef, _db);
+  }
+
+  Future<void> removeDrunkardFromBooking(
+      String bookingId, DocumentReference<User> drunkardRef) async {
+    return booking_model.removeDrunkard(bookingId, drunkardRef, _db);
   }
 }

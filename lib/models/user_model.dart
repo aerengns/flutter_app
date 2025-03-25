@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart'
     show DocumentReference, FirebaseFirestore;
 import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
@@ -28,7 +26,7 @@ class User {
         isVerified: data['isVerified'] ?? false,
         profilePicture: data['profilePicture'],
         registeredEvents:
-            List<DocumentReference>.from(data['registeredEvents']));
+            List<DocumentReference>.from(data['registeredEvents'] ?? []));
   }
 
   Map<String, dynamic> toMap() {
@@ -68,11 +66,6 @@ Future<void> updateUser(
   await db.collection(Collections.users).doc(id).update(data);
 }
 
-Future<void> deleteUser(String? id, FirebaseFirestore db) async {
-  if (id == null) {
-    log('Delete user called with null id');
-    // TODO: Handle error
-    return;
-  }
+Future<void> deleteUser(String id, FirebaseFirestore db) async {
   await db.collection(Collections.users).doc(id).delete();
 }
