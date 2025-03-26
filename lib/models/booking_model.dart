@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart'
     show DocumentReference, FirebaseFirestore;
 import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
-import 'package:flutter/material.dart' show debugPrint;
 
 class Booking {
   final String? id;
@@ -16,7 +15,6 @@ class Booking {
       this.drunkards = const []});
 
   factory Booking.fromMap(Map<String, dynamic> data, String documentId) {
-    debugPrint('Booking.fromMap: $data, drunks: ${data['drunkards']}');
     return Booking(
       id: documentId,
       eventId: data['eventId'],

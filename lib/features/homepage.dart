@@ -110,6 +110,26 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+            ),
+            const Divider(
+              height: 40,
+              thickness: 2,
+              indent: 20,
+              endIndent: 20,
+            ),
+            CustomStreamBuilder(
+              stream: _firestoreService.getConversations(),
+              customListTileBuilder: (conversation) {
+                return ListTile(
+                  title: Text('Conversation with id: ${conversation.id}'),
+                  subtitle: Text(
+                      'Users: ${conversation.getParticipants().length}, Messages: ${conversation.messageHistory.length}'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => {},
+                  ),
+                );
+              },
             )
           ],
         ),

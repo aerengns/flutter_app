@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_or_drunk_app/models/booking_model.dart' as booking_model;
 import 'package:drive_or_drunk_app/models/booking_model.dart' show Booking;
+import 'package:drive_or_drunk_app/models/conversation_model.dart'
+    as conversation_model;
+import 'package:drive_or_drunk_app/models/conversation_model.dart'
+    show Conversation;
 import 'package:drive_or_drunk_app/models/event_model.dart' as event_model;
 import 'package:drive_or_drunk_app/models/event_model.dart' show Event;
 import 'package:drive_or_drunk_app/models/user_model.dart' as user_model;
@@ -9,7 +13,7 @@ import 'package:drive_or_drunk_app/models/user_model.dart' show User;
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-// USER METHODS
+// ==================== USER METHODS ====================
   Future<void> addUser(User user) async {
     return user_model.addUser(user, _db);
   }
@@ -30,7 +34,7 @@ class FirestoreService {
     return user_model.deleteUser(id, _db);
   }
 
-  // EVENT METHODS
+// ==================== EVENT METHODS ====================
   Future<void> addEvent(Event event) async {
     return event_model.addEvent(event, _db);
   }
@@ -71,7 +75,7 @@ class FirestoreService {
     return event_model.removeDrunkard(eventId, drunkardRef, _db);
   }
 
-  // BOOKING METHODS
+// ==================== BOOKING METHODS ====================
   Future<void> addBooking(Booking booking) async {
     return booking_model.addBooking(booking, _db);
   }
@@ -100,5 +104,31 @@ class FirestoreService {
   Future<void> removeDrunkardFromBooking(
       String bookingId, DocumentReference<User> drunkardRef) async {
     return booking_model.removeDrunkard(bookingId, drunkardRef, _db);
+  }
+
+// ==================== CONVERSATION METHODS ====================
+  Future<void> addConversation(Conversation conversation) async {
+    return conversation_model.addConversation(conversation, _db);
+  }
+
+  Future<Conversation?> getConversation(String id) async {
+    return conversation_model.getConversation(id, _db);
+  }
+
+  Stream<List<Conversation>> getConversations() {
+    return conversation_model.getConversations(_db);
+  }
+
+  Future<void> updateConversation(String id, Map<String, dynamic> data) async {
+    return conversation_model.updateConversation(id, data, _db);
+  }
+
+  Future<void> deleteConversation(String id) async {
+    return conversation_model.deleteConversation(id, _db);
+  }
+
+  Future<void> addMessageToConversation(
+      String conversationId, conversation_model.Message message) async {
+    return conversation_model.addMessage(conversationId, message, _db);
   }
 }
