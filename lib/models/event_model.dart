@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart'
-    show DocumentReference, FirebaseFirestore, GeoPoint;
+    show DocumentReference, FirebaseException, FirebaseFirestore, GeoPoint;
 import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
 import 'package:drive_or_drunk_app/models/user_model.dart' show User;
 
@@ -63,7 +63,10 @@ Future<void> addEvent(Event event, FirebaseFirestore db) async {
   if (event.id == null) {
     db.collection(Collections.events).add(event.toMap());
   } else {
-    await db.collection(Collections.events).doc(event.id).set(event.toMap());
+    throw FirebaseException(
+      plugin: 'Firestore',
+      message: 'A event with that ID already exists.',
+    );
   }
 }
 

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart'
-    show DocumentReference, FirebaseFirestore, Timestamp;
+    show DocumentReference, FirebaseException, FirebaseFirestore, Timestamp;
 import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
-import 'package:flutter/cupertino.dart' show debugPrint;
 
 class Comment {
   final DocumentReference author;
@@ -68,7 +67,10 @@ Future<void> addReview(Review review, FirebaseFirestore db) async {
   if (review.id == null) {
     db.collection(Collections.reviews).add(review.toMap());
   } else {
-    await db.collection(Collections.reviews).doc(review.id).set(review.toMap());
+    throw FirebaseException(
+      plugin: 'Firestore',
+      message: 'A review with that ID already exists.',
+    );
   }
 }
 
@@ -87,7 +89,6 @@ Stream<List<Review>> getReviews(FirebaseFirestore db) {
 
 Future<void> updateReview(
     String id, Map<String, dynamic> data, FirebaseFirestore db) async {
-  debugPrint('updateReview: $id, $data');
   await db.collection(Collections.reviews).doc(id).update(data);
 }
 
@@ -101,7 +102,8 @@ Future<void> addComment(
   if (review != null) {
     review.comments.add(comment);
     final Map<String, dynamic> reviewMap = review.toMap();
-    await updateReview(
-        reviewId, {...reviewMap, 'stars': review.stars + comment.rating}, db);
+    final newTotalStars = review.comments.fold<double>(
+        0, (previousValue, element) => previousValue + element.rating);
+    await updateReview(reviewId, {...reviewMap, 'stars': newTotalStars}, db);
   }
 }

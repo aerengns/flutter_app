@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart'
-    show DocumentReference, FirebaseFirestore, Timestamp;
+    show DocumentReference, FirebaseException, FirebaseFirestore, Timestamp;
 import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
 
 class Message {
@@ -66,10 +66,10 @@ Future<void> addConversation(
   if (conversation.id == null) {
     db.collection(Collections.conversations).add(conversation.toMap());
   } else {
-    await db
-        .collection(Collections.conversations)
-        .doc(conversation.id)
-        .set(conversation.toMap());
+    throw FirebaseException(
+      plugin: 'Firestore',
+      message: 'A conversation with that ID already exists.',
+    );
   }
 }
 

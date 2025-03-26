@@ -15,6 +15,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: user id hould be same with the database id
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
@@ -54,6 +55,7 @@ class HomePage extends StatelessWidget {
                   final user = user_model.User(
                     name: 'John Doe',
                     username: 'johndoe',
+                    age: 25,
                   );
                   _firestoreService.addUser(user);
                 },

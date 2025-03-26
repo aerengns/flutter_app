@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart'
-    show DocumentReference, FirebaseFirestore;
+    show DocumentReference, FirebaseException, FirebaseFirestore;
 import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
 
 class Booking {
@@ -36,10 +36,10 @@ Future<void> addBooking(Booking booking, FirebaseFirestore db) async {
   if (booking.id == null) {
     db.collection(Collections.bookings).add(booking.toMap());
   } else {
-    await db
-        .collection(Collections.bookings)
-        .doc(booking.id)
-        .set(booking.toMap());
+    throw FirebaseException(
+      plugin: 'Firestore',
+      message: 'A booking with that ID already exists.',
+    );
   }
 }
 
