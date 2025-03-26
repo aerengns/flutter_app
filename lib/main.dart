@@ -15,16 +15,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // Questi due passaggi sono necessari per mantenere la splash screen attiva
   final WidgetsBinding widgetsBinding =
       WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  // Qui puoi inizializzare qualsiasi cosa sia necessaria per l'avvio dell'app
-  // Come configurazioni, database, autenticazione, ecc.
   await Future.delayed(
-      Duration(seconds: 1)); // Simula un'operazione di caricamento
+      const Duration(seconds: 1)); // TODO: check this crafted delay
 
-  // Quando tutto è pronto, rimuovi la splash screen
   FlutterNativeSplash.remove();
 
   runApp(
