@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage>
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+  bool rememberMeChecked = false;
 
   @override
   void initState() {
@@ -90,7 +91,7 @@ class _LoginPageState extends State<LoginPage>
                         height: MediaQuery.of(context).size.height * 0.5,
                         alignment: Alignment.center,
                         child: Image.asset(
-                          'assets/logo_android12.png',
+                          'assets/logos/logo_android12.png',
                           width: 150,
                         ),
                       ));
@@ -100,7 +101,7 @@ class _LoginPageState extends State<LoginPage>
         Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               child: Column(
                 children: [
                   TextFormField(
@@ -140,12 +141,23 @@ class _LoginPageState extends State<LoginPage>
                         value!.isEmpty ? 'Please enter a password' : null,
                   ),
                   const SizedBox(height: 16),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //TODO implement theese
-                      Text('Remember me'),
-                      Text('Forget Password?'),
+                      Row(
+                        children: [
+                          Checkbox(
+                              value: rememberMeChecked,
+                              onChanged: (value) {
+                                setState(() {
+                                  rememberMeChecked = value ?? false;
+                                });
+                              }),
+                          const Text('Remember me'),
+                        ],
+                      ),
+                      const Text('Forget Password?'),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -211,18 +223,18 @@ class WavyClipper extends CustomClipper<Path> {
     final Path path = Path();
     path.lineTo(0, size.height);
 
-    final firstCurve = Offset(0, size.height - 20);
-    final lastCurve = Offset(30, size.height - 20);
+    final firstCurve = Offset(0, size.height - 50);
+    final lastCurve = Offset(50, size.height - 50);
     path.quadraticBezierTo(
         firstCurve.dx, firstCurve.dy, lastCurve.dx, lastCurve.dy);
 
-    final secondFirstCurve = Offset(0, size.height - 20);
-    final secondLastCurve = Offset(size.width - 30, size.height - 20);
+    final secondFirstCurve = Offset(0, size.height - 50);
+    final secondLastCurve = Offset(size.width - 50, size.height - 50);
     path.quadraticBezierTo(secondFirstCurve.dx, secondFirstCurve.dy,
         secondLastCurve.dx, secondLastCurve.dy);
 
-    final thirdFirstCurve = Offset(size.width, size.height - 20);
-    final thirdLastCurve = Offset(size.width, size.height);
+    final thirdFirstCurve = Offset(size.width, size.height - 50);
+    final thirdLastCurve = Offset(size.width + 5, size.height - 100);
     path.quadraticBezierTo(thirdFirstCurve.dx, thirdFirstCurve.dy,
         thirdLastCurve.dx, thirdLastCurve.dy);
 
