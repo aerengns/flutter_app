@@ -40,6 +40,11 @@ class User {
   }
 }
 
+Future<DocumentReference?> getUserReference(
+    String id, FirebaseFirestore db) async {
+  return db.collection(Collections.users).doc(id);
+}
+
 Future<void> addUser(User user, FirebaseFirestore db) async {
   if (user.id == null) {
     db.collection(Collections.users).add(user.toMap());

@@ -1,18 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:drive_or_drunk_app/config/constants.dart';
-import 'package:flutter/cupertino.dart' show debugPrint;
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show DocumentReference, FirebaseFirestore, Timestamp;
+import 'package:drive_or_drunk_app/config/constants.dart' show Collections;
 
 class Message {
   final String text;
-  final Timestamp timestamp;
+  final Timestamp? timestamp;
   final DocumentReference sender;
 
-  Message({required this.text, required this.timestamp, required this.sender});
+  Message({required this.text, this.timestamp, required this.sender});
 
   factory Message.fromMap(Map<String, dynamic> data) {
     return Message(
       text: data['text'],
-      timestamp: data['timestamp'],
+      timestamp: data['timestamp'] ?? Timestamp.now(),
       sender: data['sender'],
     );
   }
@@ -39,7 +39,6 @@ class Conversation {
       this.messageHistory = const []});
 
   factory Conversation.fromMap(Map<String, dynamic> data, String documentId) {
-
     return Conversation(
       id: documentId,
       user1: data['user1'],
@@ -52,7 +51,8 @@ class Conversation {
     return {
       'user1': user1,
       'user2': user2,
-      'messageHistory': messageHistory,
+      'messageHistory':
+          messageHistory.map((message) => message.toMap()).toList(),
     };
   }
 
@@ -99,13 +99,9 @@ Future<void> deleteConversation(String id, FirebaseFirestore db) async {
 
 Future<void> addMessage(
     String conversationId, Message message, FirebaseFirestore db) async {
-  final conversationRef =
-      db.collection(Collections.conversations).doc(conversationId);
-  final conversation = await conversationRef.get();
-  if (conversation.exists) {
-    final messageHistory =
-        List<Message>.from(conversation.data()!['messageHistory'] ?? []);
-    messageHistory.add(message);
-    await conversationRef.update({'messageHistory': messageHistory});
+  final conversation = await getConversation(conversationId, db);
+  if (conversation != null) {
+    conversation.messageHistory.add(message);
+    await updateConversation(conversationId, conversation.toMap(), db);
   }
 }

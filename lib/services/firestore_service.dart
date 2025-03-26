@@ -7,6 +7,8 @@ import 'package:drive_or_drunk_app/models/conversation_model.dart'
     show Conversation;
 import 'package:drive_or_drunk_app/models/event_model.dart' as event_model;
 import 'package:drive_or_drunk_app/models/event_model.dart' show Event;
+import 'package:drive_or_drunk_app/models/review_model.dart' as review_model;
+import 'package:drive_or_drunk_app/models/review_model.dart' show Review;
 import 'package:drive_or_drunk_app/models/user_model.dart' as user_model;
 import 'package:drive_or_drunk_app/models/user_model.dart' show User;
 
@@ -20,6 +22,10 @@ class FirestoreService {
 
   Future<User?> getUser(String id) async {
     return user_model.getUser(id, _db);
+  }
+
+  Future<DocumentReference?> getUserReference(String id) async {
+    return user_model.getUserReference(id, _db);
   }
 
   Stream<List<User>> getUsers() {
@@ -130,5 +136,31 @@ class FirestoreService {
   Future<void> addMessageToConversation(
       String conversationId, conversation_model.Message message) async {
     return conversation_model.addMessage(conversationId, message, _db);
+  }
+
+// ==================== REVIEW METHODS ====================
+  Future<void> addReview(Review review) async {
+    return review_model.addReview(review, _db);
+  }
+
+  Future<Review?> getReview(String id) async {
+    return review_model.getReview(id, _db);
+  }
+
+  Stream<List<Review>> getReviews() {
+    return review_model.getReviews(_db);
+  }
+
+  Future<void> updateReview(String id, Map<String, dynamic> data) async {
+    return review_model.updateReview(id, data, _db);
+  }
+
+  Future<void> deleteReview(String id) async {
+    return review_model.deleteReview(id, _db);
+  }
+
+  Future<void> addCommentToReview(
+      String reviewId, review_model.Comment comment) async {
+    return review_model.addComment(reviewId, comment, _db);
   }
 }
