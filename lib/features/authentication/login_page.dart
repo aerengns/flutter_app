@@ -11,11 +11,31 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Create an animation controller with a duration of 1 second
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+      )..forward();
+
+    // Define an animation that scales the image from 1.0 to 0.4 
+    _animation = Tween<double>(
+      begin: 4.0,
+      end: 2.0
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
@@ -54,57 +74,99 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-              validator: (value) =>
-                  value!.isEmpty ? 'Please enter an email' : null,
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-              validator: (value) =>
-                  value!.isEmpty ? 'Please enter a password' : null,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _isLoading ? null : _login,
-              child: const Text('Login'),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.register);
-              },
-              child: const Text('Don’t have an account? Register'),
-            ),
+      body: Column (
+        children: [
+          Container(
+            color: Colors.blue, //TODO: fix color
+            child: AnimatedBuilder(
+            animation: _animation, 
+            builder: (context, child) {
+              return Transform.scale(
+                scale: _animation.value,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  alignment: Alignment.center,
+                  child: Image.asset('assets/logo_android12.png', width: 150,),
+                )
+              );
+            }
+          ),
+          ),
 
-            // ElevatedButton(
-            //   onPressed: _isLoading
-            //       ? null
-            //       : () {
-            //           context.read<AuthProvider>().signInWithGoogle();
-            //         },
-            //   child: Text('Sign in with Google'),
-            // ),
-            // ElevatedButton(
-            //   onPressed: _isLoading
-            //       ? null
-            //       : () {
-            //           context.read<AuthProvider>().signInWithFacebook();
-            //         },
-            //   child: Text('Sign in with Facebook'),
-            // ),
-          ],
-        ),
+          
+          Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column (
+                children: [
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xffffc953), width: 1.5), //TODO: fix color
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xffffc953), width: 2)
+                    ),
+                    fillColor: Colors.white,
+                    ),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Please enter an email' : null,
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xffffc953), width: 1.5), //TODO: fix color
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xffffc953), width: 2)
+                    ),
+                    fillColor: Colors.white,
+                    ),
+                  obscureText: true,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Please enter a password' : null,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _isLoading ? null : _login,
+                  child: const Text('Login'),
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, AppRoutes.register);
+                  },
+                  child: const Text('Don’t have an account? Register'),
+                ),
+
+                // ElevatedButton(
+                //   onPressed: _isLoading
+                //       ? null
+                //       : () {
+                //           context.read<AuthProvider>().signInWithGoogle();
+                //         },
+                //   child: Text('Sign in with Google'),
+                // ),
+                // ElevatedButton(
+                //   onPressed: _isLoading
+                //       ? null
+                //       : () {
+                //           context.read<AuthProvider>().signInWithFacebook();
+                //         },
+                //   child: Text('Sign in with Facebook'),
+                // ),
+              ],
+            ),
+          )),
+        ]
       ),
     );
   }
 }
+

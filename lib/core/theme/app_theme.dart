@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static ThemeData lightTheme = FlexThemeData.light(
-    scheme: FlexScheme.green,
+    scheme: FlexScheme.blackWhite,
     subThemesData: const FlexSubThemesData(
       inputDecoratorIsFilled: true,
       alignedDropdown: true,
@@ -21,7 +21,7 @@ class AppTheme {
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
   );
   static ThemeData darkTheme = FlexThemeData.dark(
-    scheme: FlexScheme.green,
+    scheme: FlexScheme.blackWhite,
     subThemesData: const FlexSubThemesData(
       blendOnColors: true,
       inputDecoratorIsFilled: true,
