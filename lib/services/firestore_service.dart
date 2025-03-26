@@ -139,8 +139,9 @@ class FirestoreService {
   }
 
 // ==================== REVIEW METHODS ====================
-  Future<void> addReview(Review review) async {
-    return review_model.addReview(review, _db);
+  Future<void> addReview(Review review, User user) async {
+     final reviewRef = await review_model.addReview(review, _db);
+     user_model.addReview(reviewRef, user, _db);
   }
 
   Future<Review?> getReview(String id) async {

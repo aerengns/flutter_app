@@ -147,10 +147,11 @@ class HomePage extends StatelessWidget {
                   return ListTile(
                       title: Text('Review with id: ${review.id}'),
                       subtitle: Text(
-                          'Total Stars: ${review.stars}, comment length: ${review.comments.length}'),
+                          'Type: ${review.type} Comment length: ${review.comments.length}'),
                       trailing: IconButton(
                           icon: const Icon(Icons.add_comment),
                           onPressed: () async {
+                            // TODO: this is the wrong ID for author
                             final author = await _firestoreService
                                 .getUserReference(user?.uid ?? '');
                             _firestoreService.addCommentToReview(

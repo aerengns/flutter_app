@@ -32,23 +32,28 @@ class Comment {
   }
 }
 
+class ReviewType {
+  static const String drunkard = 'drunkard';
+  static const String driver = 'driver';
+}
+
 class Review {
   final String? id;
   final DocumentReference author;
-  final double stars;
   final List<Comment> comments;
+  final String type;
 
   Review(
       {this.id,
       required this.author,
-      required this.stars,
+      required this.type,
       this.comments = const []});
 
   factory Review.fromMap(Map<String, dynamic> data, String documentId) {
     return Review(
         id: documentId,
         author: data['author'],
-        stars: data['stars'],
+        type: data['type'],
         comments: List<Comment>.from((data['comments'] as List<dynamic>? ?? [])
             .map((comment) => Comment.fromMap(comment))
             .toList()));
@@ -57,21 +62,20 @@ class Review {
   Map<String, dynamic> toMap() {
     return {
       'author': author,
-      'stars': stars,
       'comments': comments.map((comment) => comment.toMap()).toList(),
+      'type': type,
     };
   }
 }
 
-Future<void> addReview(Review review, FirebaseFirestore db) async {
-  if (review.id == null) {
-    db.collection(Collections.reviews).add(review.toMap());
-  } else {
+Future<DocumentReference> addReview(Review review, FirebaseFirestore db) async {
+  if (review.id != null) {
     throw FirebaseException(
       plugin: 'Firestore',
       message: 'A review with that ID already exists.',
     );
   }
+  return db.collection(Collections.reviews).add(review.toMap());
 }
 
 Future<Review?> getReview(String id, FirebaseFirestore db) async {
@@ -101,9 +105,6 @@ Future<void> addComment(
   final review = await getReview(reviewId, db);
   if (review != null) {
     review.comments.add(comment);
-    final Map<String, dynamic> reviewMap = review.toMap();
-    final newTotalStars = review.comments.fold<double>(
-        0, (previousValue, element) => previousValue + element.rating);
-    await updateReview(reviewId, {...reviewMap, 'stars': newTotalStars}, db);
+    await updateReview(reviewId, review.toMap(), db);
   }
 }

@@ -11,6 +11,7 @@ class User {
   final String? profilePicture;
   final List<DocumentReference> registeredEvents;
   final List<DocumentReference> favoriteEvents;
+  final List<DocumentReference> reviews;
   // TODO: add a conversations field to the User model
 
   User({
@@ -22,6 +23,7 @@ class User {
     this.profilePicture,
     this.registeredEvents = const [],
     this.favoriteEvents = const [],
+    this.reviews = const [],
   });
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
@@ -36,6 +38,7 @@ class User {
           List<DocumentReference>.from(data['registeredEvents'] ?? []),
       favoriteEvents:
           List<DocumentReference>.from(data['favoriteEvents'] ?? []),
+      reviews: List<DocumentReference>.from(data['reviews'] ?? []),
     );
   }
 
@@ -48,6 +51,7 @@ class User {
       'profilePicture': profilePicture,
       'registeredEvents': registeredEvents,
       'favoriteEvents': favoriteEvents,
+      'reviews': reviews,
     };
   }
 }
@@ -88,4 +92,10 @@ Future<void> updateUser(
 
 Future<void> deleteUser(String id, FirebaseFirestore db) async {
   await db.collection(Collections.users).doc(id).delete();
+}
+
+Future<void> addReview(
+    DocumentReference review, User user, FirebaseFirestore db) async {
+  user.reviews.add(review);
+  await updateUser(user.id!, user.toMap(), db);
 }
