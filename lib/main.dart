@@ -8,12 +8,21 @@ import 'package:drive_or_drunk_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final WidgetsBinding widgetsBinding =
+      WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await Future.delayed(
+      const Duration(seconds: 1)); // TODO: check this crafted delay
+
+  FlutterNativeSplash.remove();
+
   runApp(
     MultiProvider(
       providers: [
@@ -40,7 +49,7 @@ class MainApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
-      title: 'Flutter Template',
+      title: 'Drive or Drunk',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode:
